@@ -1,0 +1,92 @@
+from abc import ABC, abstractmethod
+
+# Abstraksi
+class Animal(ABC):
+    def __init__(self, name):
+        self.__name = name  # Enkapsulasi: name adalah private
+
+    @property
+    def name(self):
+        return self.__name
+
+    @abstractmethod
+    def make_sound(self):
+        pass
+
+# Inheritance & Polimorfisme
+class Dog(Animal):
+    def make_sound(self):
+        return "Guk guk!"
+
+class Cat(Animal):
+    def make_sound(self):
+        return "Meong~"
+
+class Bird(Animal):
+    def make_sound(self):
+        return "Cuit-cuit!"
+
+# Program utama
+def main():
+    zoo = []
+
+    while True:
+        print("\n=== Zoo Management ===")
+        print("1. Tambah Hewan")
+        print("2. Tampilkan Hewan")
+        print("3. Keluarkan Suara Hewan")
+        print("4. Keluar")
+
+        pilihan = input("Masukkan pilihan (1/2/3/4): ").strip()
+
+        try:
+            if pilihan == '1':
+                nama = input("Masukkan nama hewan: ").strip()
+                if not nama:
+                    raise ValueError("Nama hewan tidak boleh kosong.")
+                
+                print("Pilih jenis hewan:")
+                print("1. Anjing")
+                print("2. Kucing")
+                print("3. Burung")
+                jenis = input("Masukkan pilihan jenis (1/2/3): ").strip()
+
+                if jenis == '1':
+                    hewan = Dog(nama)
+                elif jenis == '2':
+                    hewan = Cat(nama)
+                elif jenis == '3':
+                    hewan = Bird(nama)
+                else:
+                    raise ValueError("Jenis hewan tidak valid.")
+
+                zoo.append(hewan)
+                print(f"Hewan {nama} berhasil ditambahkan!")
+            
+            elif pilihan == '2':
+                if not zoo:
+                    print("Tidak ada hewan di kebun binatang.")
+                else:
+                    print("Daftar Hewan:")
+                    for idx, hewan in enumerate(zoo, 1):
+                        print(f"{idx}. {hewan.name}")
+
+            elif pilihan == '3':
+                if not zoo:
+                    print("Tidak ada hewan untuk mengeluarkan suara.")
+                else:
+                    print("Suara Hewan:")
+                    for hewan in zoo:
+                        print(f"{hewan.name}: {hewan.make_sound()}")
+
+            elif pilihan == '4':
+                print("Keluar dari program.")
+                break
+            else:
+                print("Pilihan tidak valid.")
+        
+        except ValueError as e:
+            print(f"Error: {e}")
+
+if __name__ == "__main__":
+    main()
